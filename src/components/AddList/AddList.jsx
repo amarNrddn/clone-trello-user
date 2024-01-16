@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
 import TextFiled from '../TextFiled'
+import ButtonGourp from '../ButtonGroup'
 
-const AddList = () => {
+const AddList = ({handleCencel}) => {
     const [name, setName] = useState('')
+
     return (
-        <div>
+        <div className='w-[250px] h-[90px] bg-[#F9F7C9] rounded-md'>
             <TextFiled
                 type='text'
                 name='name'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={'Enter list title'}
-                className={'border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:border-blue-500 resize-none '}
             />
+            <ButtonGourp saveLabel={'Add List'} handleCencel={handleCencel} className='px-1' />
         </div>
     )
 }
