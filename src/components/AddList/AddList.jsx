@@ -1,22 +1,30 @@
 import React, { useState } from 'react'
 import TextFiled from '../TextFiled'
 import ButtonGourp from '../ButtonGroup'
-import axios from 'axios'
+import { postTodos } from '../../api/todos'
 
-const AddList = ({ handleCencel, }) => {
+const AddList = ({ handleCencel, getTodosApi }) => {
     const [name, setName] = useState('')
+
+    const handleClear = () => {
+        setName('')
+        handleCencel()
+    }
 
     const saveTodo = async () => {
         try {
             const payload = { name: name }
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/todos`, payload)
-            if(response.data.message === 'Succes') {
-
+            const response = await postTodos(payload)
+            if (response.data.message === 'Succes') {
+                getTodosApi()
+                handleClear()
             }
         } catch (error) {
             console.log(error)
         }
     }
+
+
 
     return (
         <div className='w-[250px] h-[90px] bg-[#F9F7C9] rounded-md'>
@@ -30,7 +38,7 @@ const AddList = ({ handleCencel, }) => {
             <ButtonGourp
                 saveLabel={'Add List'}
                 handleCencel={handleCencel}
-                handleSave={saveTodo}
+                handleSave={() => saveTodo()}
                 className='px-1' />
         </div>
     )
