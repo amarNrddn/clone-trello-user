@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/Header/Header'
 import Board from '../components/Board/Board'
 import Card from '../components/Card'
-import axios from 'axios'
+import { getTodos } from '../api/todos'
 
 const Pages = () => {
     const [todos, setTodos] = useState([])
 
     const getTodosApi = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/todos`)
+            const response = await getTodos()
             setTodos(response.data.data)
+            console.log(response)
         } catch (error) {
             console.log(error)
         }
