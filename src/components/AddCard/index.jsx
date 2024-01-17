@@ -8,7 +8,7 @@ const AddCard = ({
     adding,
     cencel,
     todoId,
-    itemId
+    itemId,
 }) => {
     const [name, setName] = useState('')
 
@@ -68,6 +68,8 @@ const AddCard = ({
             console.log(error)
         }
     }
+
+
 
     return (
         <div className='h-[75px] bg-[#F9F7C9] w-full px-1 pt-2'>

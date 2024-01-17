@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Title from '../Title'
 import TextFiled from '../TextFiled'
-import { FaPlus } from "react-icons/fa6";
-import { getOneTodos, updateTodos, deleteTodos } from '../../api/todos';
 import AddCard from '../AddCard';
+
+import { getOneTodos, updateTodos, deleteTodos } from '../../api/todos';
+import { FaPlus } from "react-icons/fa6";
 import { MdModeEdit } from "react-icons/md";
+import { deleteItems, moveItems } from '../../api/items';
+import { MdDelete } from "react-icons/md";
+import { IoIosArrowBack } from "react-icons/io";
 
 const Card = ({ todosApi, getTodosApi }) => {
     const [editList, setEditList] = useState({
@@ -103,6 +107,32 @@ const Card = ({ todosApi, getTodosApi }) => {
         setItemId(itemId)
     }
 
+    const handleDeleteItem = async (id) => {
+        try {
+            const response = await deleteItems(id)
+
+            if (response.data.message === 'Succes') {
+                getTodosApi()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleMoveItem = async (todoId, itemId) => {
+        try {
+            const payload = {
+                targetTodoId: todoId
+            }
+            const response = await moveItems(itemId, payload)
+            if (response.data.message === 'Succes') {
+                getTodosApi()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <>
             {card.map((item, i) => {
@@ -134,10 +164,29 @@ const Card = ({ todosApi, getTodosApi }) => {
                                         <h2 className='shadow-md py-2 px-1 flex w-full items-center justify-between '>
                                             {list.name}
                                             {hover === list.id && (
-                                                <MdModeEdit
-                                                    className='cursor-pointer'
-                                                    onClick={() => handleEditItem(item.id, list.id)}
-                                                />
+                                                <div className='flex gap-1'>
+                                                    {i !== 0 &&
+                                                        <IoIosArrowBack
+                                                            onClick={() => handleMoveItem(card[i - 1].id, list.id)}
+                                                            className='cursor-pointer'
+                                                        />
+                                                    }
+
+                                                    <MdModeEdit
+                                                        className='cursor-pointer'
+                                                        onClick={() => handleEditItem(item.id, list.id)}
+                                                    />
+                                                    <MdDelete
+                                                        className='cursor-pointer'
+                                                        onClick={() => handleDeleteItem(list.id)}
+                                                    />
+                                                    {card.length - 1 !== i &&
+                                                        <IoIosArrowBack
+                                                            onClick={() => handleMoveItem(card[i + 1].id, list.id)}
+                                                            className=' rotate-180 cursor-pointer '
+                                                        />
+                                                    }
+                                                </div>
                                             )}
                                         </h2>
                                     </div>
@@ -150,30 +199,29 @@ const Card = ({ todosApi, getTodosApi }) => {
                                         className='pt-2'
                                     />
                                 )}
-
                             </React.Fragment >
                         ))}
 
                         {item.status
-                            ?
-                            <AddCard
-                                getTodosApi={getTodosApi}
-                                adding
-                                todoId={todoId}
-                                cencel={() => togleAddCard(item.id)}
-                            />
-                            :
-                            <button
-                                onClick={() => togleAddCard(item.id)}
-                                className='w-full flex items-center bg-[#AAD9BB] py-2 px-1 text-gray-500 gap-2'
-                            >
-                                < FaPlus />
-                                Add a Card
-                            </button>
+                            ? (
+                                <AddCard
+                                    getTodosApi={getTodosApi}
+                                    adding
+                                    todoId={todoId}
+                                    cencel={() => togleAddCard(item.id)}
+                                />
+                            ) : (
+                                <button
+                                    onClick={() => togleAddCard(item.id)}
+                                    className='w-full flex items-center bg-[#AAD9BB] py-2 px-1 text-gray-500 gap-2'
+                                >
+                                    < FaPlus />
+                                    Add a Card
+                                </button>
+                            )
                         }
                     </div>
                 )
-
             })}
         </>
     )

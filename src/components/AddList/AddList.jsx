@@ -3,7 +3,7 @@ import TextFiled from '../TextFiled'
 import ButtonGourp from '../ButtonGroup'
 import { postTodos } from '../../api/todos'
 
-const AddList = ({ handleCencel, getTodosApi }) => {
+const AddList = ({ handleCencel, getTodosApi, deleteItems }) => {
     const [name, setName] = useState('')
 
     const handleClear = () => {

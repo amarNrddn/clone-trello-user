@@ -12,6 +12,11 @@ export const getOneItems = (id) => {
 export const updateItems = (id, payload) => {
     return axios.put(`${config.api_host}/items/${id}`, payload)
 }
-export const deleteTodos = (id) => {
-    return axios.delete(`${config.api_host}/todos/${id}`)
+
+export const deleteItems = (id) => {
+    return axios.delete(`${config.api_host}/items/${id}`)
+}
+
+export const moveItems = (id, payload) => {
+    return axios.put(`${config.api_host}/items/${id}/move`, payload)
 }
