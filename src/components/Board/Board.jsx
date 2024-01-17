@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import { FaPlus } from "react-icons/fa6";
 import AddList from '../AddList/AddList';
 
-const Board = ({getTodosApi}) => {
+const Board = ({ getTodosApi }) => {
     const [togleIntup, setTogleInput] = useState(false)
 
     return (
         <div className=''>
             {togleIntup ?
-                <AddList getTodosApi={() => getTodosApi()}  handleCencel={() => setTogleInput(false)} />
+                <AddList
+                    getTodosApi={() => getTodosApi()}
+                    handleCencel={() => setTogleInput(false)}
+                />
                 :
                 <button
                     onClick={() => setTogleInput(true)}

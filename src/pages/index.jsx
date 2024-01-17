@@ -10,6 +10,14 @@ const Pages = () => {
     const getTodosApi = async () => {
         try {
             const response = await getTodos()
+
+            response.data.data.forEach(res => {
+                res.status = false
+                res.Items.forEach((item) => {
+                    item.isEdit = false
+                })
+            })
+
             setTodos(response.data.data)
         } catch (error) {
             console.log(error)
@@ -25,7 +33,7 @@ const Pages = () => {
             <Header>MARZKYY LIST</Header>
             <div className="w-[100%] h-[90vh] px-5 py-3 relative flex gap-2 overflow-x-auto">
                 <Card todosApi={todos} getTodosApi={getTodosApi} />
-                <Board getTodosApi={getTodosApi}/>
+                <Board getTodosApi={getTodosApi} />
             </div>
         </div>
     )

@@ -24,22 +24,23 @@ const AddList = ({ handleCencel, getTodosApi }) => {
         }
     }
 
-
-
     return (
         <div className='w-[250px] h-[90px] bg-[#F9F7C9] rounded-md'>
-            <TextFiled
-                type='text'
-                name='name'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={'Enter list title'}
-            />
-            <ButtonGourp
-                saveLabel={'Add List'}
-                handleCencel={handleCencel}
-                handleSave={() => saveTodo()}
-                className='px-1' />
+            <div className="gap-2 flex flex-col">
+                <TextFiled
+                    type='text'
+                    name='name'
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder={'Enter list title'}
+                />
+
+                <ButtonGourp
+                    saveLabel={'Add List'}
+                    handleCencel={handleCencel}
+                    handleSave={() => saveTodo()}
+                    className='px-1' />
+            </div>
         </div>
     )
 }
